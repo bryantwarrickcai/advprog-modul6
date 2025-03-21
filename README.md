@@ -18,3 +18,10 @@ In the new `handle_connection` method, the `buf_reader` and `http_request` varia
 After this, the program reads the contents of the `hello.html` file and returns it as a string in the `contents` variable. After this, the content's length is calculated using the `.len()` method3 and stored in the `length` variable.
 
 The full HTTP response is then created by combining the `status_line`, `length`, and `contents`. This response is then sent back to the client through `TcpStream` (first it is converted to bytes using `.as_bytes()`). This makes the server respond with a basic HTML file (in this case, `hello.html`).
+
+### Commit 3 Reflection Notes
+![Commit 3 screenshot](commit3.png)
+
+To split up between the responses, we first check the request line (second line from the entire request). We use `GET <path> HTTP/1.1` to check for each path. In each case, we store the appropriate status and the rendered HTML page to variables.
+
+The refactoring is necessary because the original code contains two codes that are almost identical (the only difference is the HTTP status and file path). Refactoring the code avoids this repeated logic. Removing the duplicate code logic also reduces the complexity within the `if-else` branch, which can reduce errors in the future.

@@ -25,3 +25,6 @@ The full HTTP response is then created by combining the `status_line`, `length`,
 To split up between the responses, we first check the request line (second line from the entire request). We use `GET <path> HTTP/1.1` to check for each path. In each case, we store the appropriate status and the rendered HTML page to variables.
 
 The refactoring is necessary because the original code contains two codes that are almost identical (the only difference is the HTTP status and file path). Refactoring the code avoids this repeated logic. Removing the duplicate code logic also reduces the complexity within the `if-else` branch, which can reduce errors in the future.
+
+### Commit 4 Reflection Notes
+This behavior happens because the server is single-threaded. When a request to `/sleep` is made, the server blocks the main thread for 10 seconds. During this time, the server cannot process any other requests. As a result, when another request to `/` is made, it has to wait until the first request completes. It is only until `/sleep` has been fully loaded in which the `/` will load.

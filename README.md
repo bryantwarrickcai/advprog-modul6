@@ -28,3 +28,6 @@ The refactoring is necessary because the original code contains two codes that a
 
 ### Commit 4 Reflection Notes
 This behavior happens because the server is single-threaded. When a request to `/sleep` is made, the server blocks the main thread for 10 seconds. During this time, the server cannot process any other requests. As a result, when another request to `/` is made, it has to wait until the first request completes. It is only until `/sleep` has been fully loaded in which the `/` will load.
+
+### Commit 5 Reflection Notes
+`ThreadPool` manages a fixed number of worker threads to execute tasks concurrently, allowing multiple tasks to be executed in parallel. The `ThreadPool` consists of a vector of `Worker` threads and a `Sender` for job distribution using the `mpsc` channel. When the ThreadPool is created with a specified number of threads (in this case 4), each worker thread waits for jobs from the shared receiver. The `execute` method sends the tasks to the workers through the channel. Each worker picks up a job and executes it. Multiple tasks can be processed concurrently by the worker threads, improving the efficiency for workloads.
